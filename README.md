@@ -40,7 +40,8 @@ Esta tabla contiene información adicional sobre los embalses y sus característ
 - **DEMARC**: Demarcación hidrográfica.
 - **CAUCE**: Cauce del embalse.
 - **GOOGLE, OPENSTREETMAP, WIKIDATA**: Enlaces a recursos externos.
-- **PROVINCIA, C## Sobre Nosotros
+
+## Sobre Nosotros
 
 Somos un equipo apasionado por la tecnología, la naturaleza y el acceso a la información de manera sencilla y eficiente. Nuestra misión es acercar los embalses de España a todos, ya sea para planificar una escapada al aire libre, investigar la disponibilidad de agua en ciertas áreas o simplemente disfrutar de los recursos naturales de nuestro país.
 
