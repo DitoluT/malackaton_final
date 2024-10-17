@@ -60,6 +60,11 @@ Para nuestra aplicación web, hemos desarrollado un servidor Flask que actúa co
 3. **Eficiencia en el Procesamiento**: Esta arquitectura de API permite que tanto el backend como el frontend se comuniquen de manera independiente y eficiente. Al utilizar un servidor Flask como intermediario, optimizamos el flujo de datos, lo que mejora la velocidad de respuesta de la aplicación y reduce la carga directa sobre la base de datos.
 
 Esta estructura no solo facilita el desarrollo y mantenimiento de la aplicación, sino que también mejora la experiencia del usuario al ofrecer tiempos de carga más rápidos y un acceso más ágil a la información sobre los embalses.
+
+### Escalabilidad del Proyecto
+
+Nuestro proyecto está diseñado para ser escalable, ya que al poseer un backend en Python, se abre la puerta a futuras modificaciones y mejoras. Esto incluye la posibilidad de implementar modelos de machine learning para analizar y predecir datos relacionados con los embalses. Esta flexibilidad nos permitirá adaptar la aplicación a nuevas necesidades y aprovechar técnicas avanzadas de análisis de datos en el futuro.
+
 ## Requisitos del Proyecto
 
 Para llevar a cabo el desarrollo de nuestra aplicación web, hemos utilizado varias bibliotecas y herramientas esenciales. A continuación, se detallan los requisitos del proyecto:
