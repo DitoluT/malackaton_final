@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa Interactivo</title>
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.css" />
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+
+        .boton-volver {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 10px 20px;
+            background-color: #007BFF;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: background-color 0.3s;
+        }
+
+        .boton-volver:hover {
+            background-color: #0056b3;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin: 20px 0;
+            color: #333;
+        }
+
+        #map {
+            width: 80%;
+            height: 500px;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+
+        #info-panel {
+            display: none; /* Inicialmente oculto */
+            position: absolute; 
+            top: 20px; 
+            right: 20px; 
+            width: 300px; 
+            background-color: white; 
+            padding: 10px; 
+            border-radius: 8px; 
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            z-index: 1000; /* Asegúrate de que se superponga al mapa */
+        }
+
+        .filtro {
+            position: relative;
+            background-color: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            margin-top: 20px;
+            z-index: 1000;
+        }
+
+        .filtro input {
+            padding: 5px;
+            margin-right: 5px;
+        }
+
+        .filtro button {
+            padding: 5px 10px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        .filtro button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+
+    <a href="/" class="boton-volver">Volver</a>
+    <h1>MAPA INTERACTIVO</h1>
+
+    <div class="filtro">
+        <label for="localizacion">Localización:</label>
+        <input type="text" id="localizacion" placeholder="Introduce una ubicación" />
+        <button id="cambiar-ubicacion">Cambiar ubicación</button>
+        <br />
+        
+        <!-- Nuevos campos para latitud y longitud -->
+        <label for="latitud">Latitud:</label>
+        <input type="number" id="latitud" placeholder="Latitud" step="any" />
+        <label for="longitud">Longitud:</label>
+        <input type="number" id="longitud" placeholder="Longitud" step="any" />
+        <button id="cambiar-coordenadas">Cambiar por coordenadas</button>
+        <br />
+
+        <label for="radio">Radio (km):</label>
+        <input type="number" id="radio" placeholder="100" min="1" />
+        <button id="aplicar">Aplicar</button>
+    </div>
+
+    <div id="map"></div>
+
+    <div id="info-panel" style="display:none; position: absolute; top: 20px; right: 20px; width: 300px; background-color: white; padding: 10px; border-radius: 8px; box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);">
+        <button id="leer-informacion">Leer Información</button>
+        <h2 id="embalse-nombre" style="font-size: 24px; font-weight: bold;"></h2> <!-- Nombre del embalse -->
+        <div id="embalse-estadisticas"></div> <!-- Aquí se mostrarán las estadísticas -->
+        <p><strong>Cuenca:</strong> <span id="embalse-cuenca"></span></p> <!-- Cuenca -->
+        <p><strong>Cauce:</strong> <span id="embalse-cauce"></span></p> <!-- Cauce -->
+    </div>
+    
+
+    <!-- Leaflet JS -->
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://unpkg.com/leaflet-control-geocoder/dist/Control.Geocoder.js"></script>
+    <script>
+        var map = L.map('map').setView([40.4168, -3.7038], 6); // Coordenadas centradas en España
+        var latitud;
+        var longitud;
+        var radio;
+        var markers = []; // Inicializar el array de marcadores
+        var circle;
+    
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 19,
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
+    
+        function limpiarMapa() {
+            // Eliminar todos los marcadores del mapa
+            markers.forEach(marker => {
+                map.removeLayer(marker);
+            });
+            markers = []; // Reiniciar el array de marcadores
+    
+            // Eliminar el círculo si existe
+            if (circle) {
+                map.removeLayer(circle);
+                circle = null; // Reiniciar la variable de círculo
+            }
+        }
+    
+        function obtenerUbicacion() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    latitud = position.coords.latitude;
+                    longitud = position.coords.longitude;
+                    obtenerDatos(latitud, longitud, 100);
+    
+                    // Crear y agregar el marcador
+                    marker = L.marker([latitud, longitud]).addTo(map);
+                    markers.push(marker); // Añadir el marcador al array de marcadores
+                    
+                    // Crear y agregar el círculo
+                    circle = L.circle([latitud, longitud], {
+                        color: 'blue',
+                        fillColor: '#30aaff',
+                        fillOpacity: 0.5,
+                        radius: 103000 
+                    }).addTo(map);
+    
+                    map.fitBounds(circle.getBounds());
+                }, function() {
+                    alert("Error al obtener la ubicación.");
+                });
+            } else {
+                alert("La geolocalización no es soportada por este navegador.");
+            }
+        }
+    
+        function actualizarCirculo(nuevoRadio) {
+            limpiarMapa();
+            circle = L.circle(marker.getLatLng(), {
+                color: 'blue',
+                fillColor: '#30aaff',
+                fillOpacity: 0.5,
+                radius: nuevoRadio * 1300
+            }).addTo(map);
+            radio = nuevoRadio;
+            map.fitBounds(circle.getBounds());
+            obtenerDatos(latitud, longitud, nuevoRadio);
+        }
+    
+        function cambiarUbicacion() {
+            limpiarMapa();
+            var direccion = document.getElementById('localizacion').value;
+            if (direccion) {
+                var geocoder = L.Control.Geocoder.nominatim();
+                geocoder.geocode(direccion, function(results) {
+                    if (results.length > 0) {
+                        var latLng = results[0].center;
+                        latitud = latLng.lat;
+                        longitud = latLng.lng;
+                        map.setView(latLng, 13);
+                        
+                        // Crear y agregar el marcador
+                        marker = L.marker(latLng).addTo(map);
+                        markers.push(marker); // Añadir el marcador al array de marcadores
+                        
+                        // Crear y agregar el círculo
+                        circle = L.circle(latLng, {
+                            color: 'blue',
+                            fillColor: '#30aaff',
+                            fillOpacity: 0.5,
+                            radius: radio * 1300 
+                        }).addTo(map);
+                        map.fitBounds(circle.getBounds());
+                    } else {
+                        alert("No se encontró la ubicación.");
+                    }
+                    obtenerDatos(latitud, longitud, radio);
+                });
+            } else {
+                alert("Por favor, ingresa una dirección.");
+            }
+        }
+    
+        function cambiarCoordenadas() {
+            limpiarMapa();
+            latitud = parseFloat(document.getElementById('latitud').value);
+            longitud = parseFloat(document.getElementById('longitud').value);
+            
+            if (!isNaN(latitud) && !isNaN(longitud)) {
+                var latLng = [latitud, longitud];
+                map.setView(latLng, 13);
+                
+                // Crear y agregar el marcador
+                marker = L.marker(latLng).addTo(map);
+                markers.push(marker); // Añadir el marcador al array de marcadores
+                
+                // Crear y agregar el círculo
+                circle = L.circle(latLng, {
+                    color: 'blue',
+                    fillColor: '#30aaff',
+                    fillOpacity: 0.5,
+                    radius: radio * 1300
+                }).addTo(map);
+                map.fitBounds(circle.getBounds());
+                obtenerDatos(latitud, longitud, radio);
+            } else {
+                alert("Por favor, ingresa coordenadas válidas.");
+            }
+        }
+    
+        document.getElementById('aplicar').addEventListener('click', function() {
+            limpiarMapa();
+            var nuevoRadio = parseFloat(document.getElementById('radio').value);
+            if (nuevoRadio > 0) {
+                actualizarCirculo(nuevoRadio);
+            } else {
+                alert("Por favor, ingresa un radio válido.");
+            }
+        });
+    
+        document.getElementById('cambiar-ubicacion').addEventListener('click', cambiarUbicacion);
+        document.getElementById('cambiar-coordenadas').addEventListener('click', cambiarCoordenadas);
+    
+        obtenerUbicacion();
+    
+        async function obtenerDatos(lat, lon, distance) {
+            const response = await fetch(`/data?lat=${lat}&lon=${lon}&distance=${distance}`);
+            const embalses = await response.json();
+
+            for (const embalse of embalses) {                
+                var marker = L.marker([embalse.x, embalse.y]).addTo(map);
+                markers.push(marker); // Asegurarse de agregar el nuevo marcador al array
+
+                // Evento click en el marcador para mostrar el panel de información
+                marker.on('click', async function() {
+                    // Mostrar el panel
+                    document.getElementById('info-panel').style.display = 'block';
+                    document.getElementById('embalse-nombre').textContent = embalse.embalse_nombre;
+
+                    // Hacer la primera solicitud para obtener detalles del embalse
+                    const responseDetails = await fetch(`/water?id=${embalse.id}`);
+                    const embalseDetails = await responseDetails.json();
+
+                    document.getElementById('embalse-cuenca').textContent = embalse.ambito_nombre; // Cuenca
+                    console.log(embalse.ambito_nombre)
+                    document.getElementById('embalse-cauce').textContent = embalse.cauce; // Cauce
+                    console.log(embalse.cauce)
+                    
+                    
+
+                    // Obtener estadísticas de agua para el embalse cuando se hace clic
+                    const waterStatsResponse = await fetch(`/water?id=${embalse.id}`);
+                    
+                    if (waterStatsResponse.ok) {
+                        const waterStats = await waterStatsResponse.json();
+
+                        
+                        
+                        // Mostrar las estadísticas de agua en el panel
+                        let waterStatsHTML = '';
+                        
+                        const year = '2024';
+                        if (waterStats && waterStats[year]) {
+                            document.getElementById('leer-informacion').onclick = function() {
+                                const texto = mensaje = `
+                                El embalse ${embalse.embalse_nombre} está en la cuenca de ${embalse.ambito_nombre}.
+                                Tiene una capacidad total de ${embalse.agua_total} hectómetros cúbicos. 
+                                Este año ha tenido una cantidad media de agua de ${stats.media !== null ? stats.media.toFixed(2) : 'N/A'} hm³.
+                                Es de uso eléctrico: ${embalse.electrico_flag === '1' ? 'sí' : 'no'}.`;                
+                                leerEnVozAlta(texto);
+                            };
+                            const stats = waterStats[year];
+                            waterStatsHTML += `<p>Año: ${year}</p>`;
+                            waterStatsHTML += `<p>Media de Agua: ${stats.media !== null ? stats.media.toFixed(2) : 'N/A'} hm³</p>`;
+                            waterStatsHTML += `<p>Máximo de Agua: ${stats.maximo !== null ? stats.maximo : 'N/A'} hm³</p>`;
+                            waterStatsHTML += `<p>Mínimo de Agua: ${stats.minimo !== null ? stats.minimo : 'N/A'} hm³</p>`;
+                        } else {
+                            waterStatsHTML = 'No hay datos disponibles para el año 2024.';
+                        }
+
+                        // Añadir las estadísticas al panel
+                        document.getElementById('embalse-estadisticas').innerHTML = waterStatsHTML;
+                    } else {
+                        document.getElementById('embalse-estadisticas').textContent = 'Error al obtener los datos del agua.';
+                    }
+                });
+            }
+        }
+
+        function leerEnVozAlta(texto) {
+                const speech = new SpeechSynthesisUtterance(texto);
+                speech.lang = 'es-ES'; // Configuramos el idioma
+                window.speechSynthesis.speak(speech);
+            }
+
+    </script>
+</body>
+</html>
