@@ -5,7 +5,7 @@
 
 Como equipo participante en este proyecto, hemos tenido la oportunidad de trabajar con datos sobre embalses españoles utilizando la infraestructura de Oracle Cloud (OCI). A lo largo de esta experiencia, hemos desarrollado una aplicación que gestiona y analiza información de embalses, permitiendo el acceso a datos relevantes de manera segura y eficiente. Este proceso nos ha permitido aprender sobre la integración de bases de datos, la creación de aplicaciones web y la implementación de medidas de seguridad para proteger los datos y la aplicación.
 
-![Interfaz Oscura](imagenes/index_oscuro.png)
+![Interfaz Oscura](images/index_oscuro.png)
 
 ## Estructura de Datos
 
@@ -61,7 +61,6 @@ Para nuestra aplicación web, hemos desarrollado un servidor Flask que actúa co
 
 3. **Eficiencia en el Procesamiento**: Esta arquitectura de API permite que tanto el backend como el frontend se comuniquen de manera independiente y eficiente. Al utilizar un servidor Flask como intermediario, optimizamos el flujo de datos, lo que mejora la velocidad de respuesta de la aplicación y reduce la carga directa sobre la base de datos.
 
-![Interfaz Clara](imagenes/index_claro.png)
 
 Esta estructura no solo facilita el desarrollo y mantenimiento de la aplicación, sino que también mejora la experiencia del usuario al ofrecer tiempos de carga más rápidos y un acceso más ágil a la información sobre los embalses.
 
@@ -71,11 +70,15 @@ Nuestro proyecto está diseñado para ser escalable, ya que al poseer un backend
 
 ## Accesibilidad e Inclusividad
 
+![Interfaz Clara](images/mapainteractivo1view.png)
+
 En nuestro proyecto, hemos priorizado la accesibilidad e inclusividad para asegurar que la aplicación sea fácil de usar para todos. Las características clave incluyen:
 
 ### Modo Blanco y Negro
 
 - **Modo Blanco y Negro**: Para facilitar la visualización, hemos implementado un modo de alto contraste que permite a los usuarios alternar entre el modo estándar y el modo blanco y negro. Esta opción es especialmente útil para personas con discapacidades visuales o sensibilidad a los colores.
+
+![Interfaz Clara](images/index_claro.png)
 
 ### Lectura de Información
 
