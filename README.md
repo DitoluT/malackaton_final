@@ -82,7 +82,7 @@ Nuestro equipo está compuesto por estudiantes de tercer curso del Doble Grado d
 
 ¡Explora nuestra web, conoce más sobre los embalses de tu zona y no dudes en contactarnos para cualquier pregunta o sugerencia! Nos encanta aprender de nuestros usuarios y mejorar cada día.
 
-[!equipo](images/equipo.jpge)
+[!equipo](images/equipo.jpeg)
 
 ### Escalabilidad del Proyecto
 
