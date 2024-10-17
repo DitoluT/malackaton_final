@@ -5,6 +5,8 @@
 
 Como equipo participante en este proyecto, hemos tenido la oportunidad de trabajar con datos sobre embalses españoles utilizando la infraestructura de Oracle Cloud (OCI). A lo largo de esta experiencia, hemos desarrollado una aplicación que gestiona y analiza información de embalses, permitiendo el acceso a datos relevantes de manera segura y eficiente. Este proceso nos ha permitido aprender sobre la integración de bases de datos, la creación de aplicaciones web y la implementación de medidas de seguridad para proteger los datos y la aplicación.
 
+![Interfaz Oscura](imagenes/index_oscuro.png)
+
 ## Estructura de Datos
 
 Para comenzar, nos hemos familiarizado con las tablas de datos que utilizamos en el proyecto. Hay tres tablas principales que contienen información sobre los embalses:
@@ -59,6 +61,8 @@ Para nuestra aplicación web, hemos desarrollado un servidor Flask que actúa co
 
 3. **Eficiencia en el Procesamiento**: Esta arquitectura de API permite que tanto el backend como el frontend se comuniquen de manera independiente y eficiente. Al utilizar un servidor Flask como intermediario, optimizamos el flujo de datos, lo que mejora la velocidad de respuesta de la aplicación y reduce la carga directa sobre la base de datos.
 
+![Interfaz Clara](imagenes/index_claro.png)
+
 Esta estructura no solo facilita el desarrollo y mantenimiento de la aplicación, sino que también mejora la experiencia del usuario al ofrecer tiempos de carga más rápidos y un acceso más ágil a la información sobre los embalses.
 
 ### Escalabilidad del Proyecto
@@ -99,6 +103,7 @@ Para instalar todas las bibliotecas necesarias, puedes utilizar `pip`. Ejecuta e
 
 ```bash
 pip install flask requests numpy pandas
+
 ```
 
 ### Lanzamiento del Servidor
