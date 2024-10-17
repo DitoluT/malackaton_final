@@ -41,20 +41,6 @@ Esta tabla contiene información adicional sobre los embalses y sus característ
 - **CAUCE**: Cauce del embalse.
 - **GOOGLE, OPENSTREETMAP, WIKIDATA**: Enlaces a recursos externos.
 
-## Sobre Nosotros
-
-Somos un equipo apasionado por la tecnología, la naturaleza y el acceso a la información de manera sencilla y eficiente. Nuestra misión es acercar los embalses de España a todos, ya sea para planificar una escapada al aire libre, investigar la disponibilidad de agua en ciertas áreas o simplemente disfrutar de los recursos naturales de nuestro país.
-
-Sabemos lo importante que es proporcionar datos precisos y actualizados, por eso hemos creado una aplicación web que permite visualizar los embalses más cercanos a tu ubicación, todo desde la comodidad de Internet. Además, queremos que la información sea accesible para todos, por lo que nos hemos comprometido a desarrollar una web inclusiva, intuitiva y fácil de usar.
-
-Nuestro equipo está compuesto por estudiantes de tercer curso del Doble Grado de Matemáticas e Ingeniería Informática de la Universidad de Málaga, todos unidos por un objetivo común: hacer que los datos hídricos de España sean accesibles, comprensibles y útiles para todos.
-
-¡Explora nuestra web, conoce más sobre los embalses de tu zona y no dudes en contactarnos para cualquier pregunta o sugerencia! Nos encanta aprender de nuestros usuarios y mejorar cada día.
-CAA**: Localización del embalse.
-- **TIPO, TITULAR, USO**: Información sobre el tipo de embalse, su titularidad y uso.
-- **COTA_CORON, ALT_CIMIEN**: Datos sobre la altura y características estructurales.
-- **INFORME**: Información adicional sobre el embalse.
-
 ### Fusión de Tablas
 
 Dado que no existe una correspondencia perfecta entre los datos de las tablas `EMBALSES` y `LISTADO_EMBALSES`, hemos decidido fusionar estas tablas basándonos en la similitud en el nombre de los embalses. Esta fusión nos permite establecer relaciones más claras entre los datos y obtener un conjunto de datos más completo y coherente.
