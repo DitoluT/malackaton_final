@@ -74,6 +74,14 @@ Para llevar a cabo el desarrollo de nuestra aplicación web, hemos utilizado var
 
 4. **Pandas**: Utilizamos Pandas para el análisis y manipulación de datos. Esta biblioteca nos permite cargar, transformar y analizar los datos de los embalses de forma sencilla y eficiente.
 
+### Instalación de Dependencias
+
+Para instalar todas las bibliotecas necesarias, puedes utilizar `pip`. Ejecuta el siguiente comando en tu terminal:
+
+```bash
+pip install flask requests numpy pandas
+```
+
 ### Lanzamiento del Servidor
 
 Para iniciar el servidor Flask y poner en marcha nuestra aplicación, es necesario seguir estos pasos:
