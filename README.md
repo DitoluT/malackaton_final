@@ -65,6 +65,20 @@ Esta estructura no solo facilita el desarrollo y mantenimiento de la aplicación
 
 Nuestro proyecto está diseñado para ser escalable, ya que al poseer un backend en Python, se abre la puerta a futuras modificaciones y mejoras. Esto incluye la posibilidad de implementar modelos de machine learning para analizar y predecir datos relacionados con los embalses. Esta flexibilidad nos permitirá adaptar la aplicación a nuevas necesidades y aprovechar técnicas avanzadas de análisis de datos en el futuro.
 
+## Accesibilidad e Inclusividad
+
+En nuestro proyecto, hemos priorizado la accesibilidad e inclusividad para asegurar que la aplicación sea fácil de usar para todos. Las características clave incluyen:
+
+### Modo Blanco y Negro
+
+- **Modo Blanco y Negro**: Para facilitar la visualización, hemos implementado un modo de alto contraste que permite a los usuarios alternar entre el modo estándar y el modo blanco y negro. Esta opción es especialmente útil para personas con discapacidades visuales o sensibilidad a los colores.
+
+### Lectura de Información
+
+- **Lectura de Información en Pantalla**: La aplicación incluye una funcionalidad que permite que la información se lea en voz alta. Esta característica está diseñada para ayudar a aquellos que tienen dificultades para leer en pantalla, asegurando que todos los usuarios puedan acceder a los datos de los embalses de manera efectiva.
+
+Con estas características, buscamos crear una aplicación que no solo sea funcional, sino también accesible para todos los usuarios, independientemente de sus necesidades específicas.
+
 ## Requisitos del Proyecto
 
 Para llevar a cabo el desarrollo de nuestra aplicación web, hemos utilizado varias bibliotecas y herramientas esenciales. A continuación, se detallan los requisitos del proyecto:
